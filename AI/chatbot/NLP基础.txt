@@ -1,0 +1,126 @@
+NLP基础到最前沿的一些算法
+
+今天将以NLTK为基础配合讲解自然语音处理的原理，基石
+textblob
+
+NLTK
+www.nltk.org
+python上著名的自然语音处理库，自带语料库，词性分类库
+自带分类，分词，等功能，强大社 区支持，N多简单版wrapper
+textblob
+
+pip install -U nltk
+pip install -U numpy
+安装语料库
+import nltk
+nltk.download(" ")
+学术界测量标准的库，大家都认可的语料库，布朗大学的库，paper
+代码
+
+功能一览表，知识点，
+corpus语料
+parsing句子树，语言学的知识分析出主谓宾
+tokenize分词
+
+文本处理流程：
+hello from the other side
+预处理Tokenize：jieba分词
+hello from the other side
+
+虚词，的，停止词
+语义方面角度，the是无意义的
+特定方面，比如作文是否写的好，the的是有意义的
+
+特征工程
+把计算机可以理解的占位符，数字化表达方式
+
+机器学习算法
+
+
+文本处理流程
+1，分词
+代码
+中英文NLP区别，分词：
+1，启发式heuristic，查字典的方式
+2，统计方法/机器学习：HMM，CRF，数据驱动的，NN，LSTM，RNN
+HMM，CRF就是固定公式来算Proba，NN等不知道公式就来算Proba
+Viterbi算法是HMM中的一种
+
+代码
+jieba分词器
+全模式，精确模式，新词识别，搜索引擎模式（虚词也有）
+
+分词之后中英文一样
+what a nice weather today
+今天 天气 真 不错
+
+正则表达式，全球通用的字符串处理规则
+对照表，http://www.regexlab.com/zh/regref.htm
+正则表达式在线测试
+
+2，归一化
+Stemming词干提取，把不影响词性的inflection小尾巴砍掉
+walking砍掉ing=walk
+walked砍掉ed=walk
+代码
+
+Lemmatization词形归一：查表，把各种类型的词变形，都归为一个形式
+went归一=go
+are归一=be
+代码
+went go的过去式，英文名：温特
+
+POS Tag  Part of Speech
+告诉是什么类型的词，默认是名词，可以告诉其他比如动词
+表格图POS
+nltk包括jieba都包含pos_tag方法，先用pos_tag再来用lemma
+
+
+3，停用词
+虚词表
+中文虚词表
+http://www.ranks.nl/stopwords
+你，我，他，它，指代太多
+代码
+
+文本预处理流水线：
+原文->分词->（POS_TAG->Lemma/Stem）->去掉停用词->词表
+干净的词表，里面每个词都有一个特定的意思
+
+
+自然语言到计算机数据
+
+NLP经典三案例
+1，情感分析
+文本表达正面还是负面
+sentiment dictionary 情感词库
+like 1
+good 2
+bad -2
+terrible -3
+类似于关键词打分机制
+
+工业界，学术界，魔方的比喻d
+
+2，文本相似度
+查重，查抄袭
+
+词频，用元素频率表示文本特征
+余弦相似度
+代码
+
+3，文本分类
+用的最多的，把句子分为不同的类别，都属于什么
+
+TFIDF
+代码
+后面接一些传统算法来进行分类
+
+深度学习
+1，auto encoder
+自编码器，最古老的运用到深度学习思想的算法
+Data-specific，非常依赖训练的数据，外扩行不是很高
+纺锤行神经网络
+
+2，word2vec
+一个单词的意义是由周围单词所决定的，吃汉堡

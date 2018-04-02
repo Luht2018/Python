@@ -1,0 +1,32 @@
+Rule-Based聊天机器人
+
+if then else 
+	if then else
+		...
+
+聊天机器人，吹的牛逼，其实就是一个问答系统！
+如果只是Rule-Based就是问答系统，
+如果从Generative-Based来讲就不只是一个问答系统了
+
+cd AI &&  mvn archetype:generate -DgroupId=my.spark -DartifactId=Spark -DarchetypeArtifactId=maven-archetype-quickstart -DinactiveMode=false && mv test/* ./ && rm -rf test
+
+cd AI &&  mvn archetype:generate -DgroupId=my.spark -DartifactId=Spark -DarchetypeArtifactId=scalate-archetype-empty -DinactiveMode=false && mv test/* ./ && rm -rf test
+
+
+
+
+
+
+export JAVA_HOME=/usr/java/jdk1.8.0_111
+export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export M3_HOME=/usr/local/maven3
+export PATH=$JAVA_HOME/bin:$M3_HOME/bin:$PATH
+
+
+
+
+
+
+
+
+

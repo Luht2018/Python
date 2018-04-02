@@ -1,0 +1,148 @@
+机器学习构建chatbot
+
+seq2seq底层是LSTM，TensorFlow的模型
+MachineTranslation语种序列到语种序列
+
+百度用seq2seq序列模型，从Document网页到query用户搜索的映射
+想知道根据你搜索想看哪些网页
+intention意图
+
+chatterbot框架
+用到NLP ML的知识，架构清晰，模块化，数据驱动
+当你数据量足够大，数据分布和真实世界非常接近，你问了一句话，在训练集中可以找到可行的答案
+数据驱动，可解释性，可控性
+
+聊天机器人的思考：
+1，工程考量
+聊天机器人
+客服机器人、百科机器人、...
+售前、售后、...
+
+2，机器学习角度考虑
+算法简单、数据（特征）驱动
+场景化与垂直领域，京东大量精力在做客服机器人，长尾分布
+优先来解决重复出现的问题，京东和天猫都会积攒大量的语料
+
+预备知识：
+1，检索与匹配
+不要天真的理解计算机可以很轻松读懂人类语言
+集体智慧
+知识库（存储了问题与回复内容）
+检索：搜索相关问题
+匹配：对结果进行排序，可以用用户的反馈来调整结果
+
+预备知识：
+1，编辑距离/Levenshtein距离，是指两个字符串之间，由一个转成另一个所需要的最少编辑操作次数
+不是rule-based，编辑距离，书写纠错和自动补全用的很多
+INTE*NTION
+*EXECUTION
+dss is
+编辑距离是5，是常考的一个问题，动态规划
+delete
+substitution
+insert
+编辑距离是评价两个文本之间的一个关联度
+代码，要用unicode对于中文来说
+Q1 --> Q
+A1
+Q2
+A2
+问题到问题匹配容易，问题到答案匹配很难
+
+2，TF-IDF
+如果用编辑距离的话，你喜欢什么书？你喜欢什么电影？
+是截然不同的问题！这样其实编辑距离把每个字都看成一样重要了
+那么我们可以针对里面核心成分的抽取，然后利用核心成分去比对！
+
+Chatterbot聊天机器人
+每个部分都设计了不同的适配器（adapter）
+机器人应答逻辑 => Logic Adapters
+Closest Match Adapter
+字符串模糊匹配(编辑距离)
+
+3，NLTK wordnet来评估哪些词是接近的，word2vec可以找近义词来建立wordnet
+如果你有语料就可以做，比如你把微博维基百科弄下来可以扩展
+这样就可以用TF-IDF抽取核心词汇，来用word2vec来比较相似度
+现在我们来完成了问题到问题之间的匹配！相似度距离的一个计算
+Closest Meaning Adapter
+借助nltk的WordNet，近义词评估
+
+4，场景分类，我们希望我们可以定位问的问题是什么场景？
+这样可以从专门的数据库中去匹配，不用从全局去匹配了
+分类用朴素贝叶斯
+根据看到的关键词来判断是哪个类！！！
+NB、RF、GBDT、SVM
+RNN、LSTM能够捕捉到序列里面的信息
+根据品类知道词，转为根据词来推导品类的概率
+
+
+chatterbot
+当你的数据覆盖的非常多的话，效果非常好！
+Machine learning, conversational dialog engine
+学（记忆）习（匹配）
+http://chatterbot.readthedocs.io/en/stable/index.html
+Specify Response Adapter
+specific_response.py
+
+1，架构与使用方法
+每个部分都设计了不同的“适配器”(Adapter)
+==》机器人应答逻辑 => Logic Adapters
+搭积木
+
+o Closest Match Adapter
+l 字符串模糊匹配(编辑距离)
+threshold：0.65，小于阈值回答一句比较安全的话，嗯
+
+o Closest Meaning Adapter
+l 借助nltk的WordNet，近义词评估
+
+o Time Logic Adapter
+l 处理涉及时间的提问
+
+o Mathematical Evaluation Adapter
+l 涉及数学运算
+
+怎么区分场景，就可以用朴素贝叶斯去做，比如出现数学符号，就走数学运算分支
+比如出现time时间就运用Time Logic Adapter
+
+存储知识库后端==>Storage Adapters
+Read Only Mode，只读模式，输入数据不记录到数据库
+JSON Database Adapter，数据库载入非常费时间的，线上不用的
+Mongo Database Adapter，Redis，k-v数据库方式来做存储
+
+输入形式==>Input Adapters
+Variable input type adapter，strings字符串
+Terminal adapter，使得chatterBot可以通过终端进行对话
+Speech recognition，语言识别输入，详见chatterbot-voice
+
+输出形式==>Output Adapters
+Output format adapter  text json object格式输出
+Terminal adapter
+Speech synthesis，TTS(Text to speech)部分，详见chatterbot-voice
+
+
+2，源码分析
+gunthercox/chatterbox
+
+Get Input，console...
+Process Input，可以设置一些logic adapter，从很多设配器找答案，
+找适配器中置信度最高的作为最终答案，如果分数一样，它会按你给的顺序给答案
+Return response
+
+http://chatterbot.readthedocs.io/en/stable/training.html?highlight=json
+指定训练的语料json文件
+
+https://github.com/gunthercox/ChatterBot/blob/master/chatterbot/logic/best_match.py
+compare_statements
+
+TimeLogicAdapter
+这个地方分类只是为了得到一个置信度
+self.classifier = NaiveBayesClassifier.train(train_set)
+
+
+现在讲的是比较传统的聊天机器人，也有一些用深度学习来做的生成答案的，但是不太好评估，基本只能人工review
+
+
+
+
+
